@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What is the company's refund policy for digital products?",
+    "ground_truth": "Digital products are non-refundable unless the product is defective or fails to function as described."
+  },
+  {
+    "question": "How many days does a customer have to return a physical item?",
+    "ground_truth": "Customers have 30 days from the date of purchase to return physical items in original condition."
+  },
+  {
+    "question": "What documentation is required to process an insurance claim?",
+    "ground_truth": "Claims require a completed claim form, proof of purchase, and a description of the incident."
+  },
+  {
+    "question": "What are the eligibility requirements for the premium tier?",
+    "ground_truth": "Customers must maintain a minimum account balance of $500 and have been active for at least 6 months."
+  },
+  {
+    "question": "How is personal data handled under the privacy policy?",
+    "ground_truth": "Personal data is stored securely, never sold to third parties, and may be used to improve service quality."
+  },
+  {
+    "question": "What is the process for escalating a support ticket?",
+    "ground_truth": "Tickets unresolved within 48 hours are automatically escalated to a senior support agent."
+  },
+  {
+    "question": "Are there any fees for early contract termination?",
+    "ground_truth": "Early termination within the first 12 months incurs a fee equal to 20% of the remaining contract value."
+  },
+  {
+    "question": "What encryption standards are used for data storage?",
+    "ground_truth": "All data at rest is encrypted using AES-256. Data in transit uses TLS 1.3."
+  },
+  {
+    "question": "What is the maximum file size for document uploads?",
+    "ground_truth": ""
+  },
+  {
+    "question": "How can a user reset their password?",
+    "ground_truth": ""
+  }
+]

@@ -1,0 +1,49 @@
+# docker/Dockerfile.api
+# Multi-stage build: keeps the final image lean by not including build tools.
+
+# ── Stage 1: Build dependencies ────────────────────────────────────────────
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+
+# System deps needed to compile some Python packages (e.g. unstructured, chromadb)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libmagic1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+
+# ── Stage 2: Runtime image ─────────────────────────────────────────────────
+FROM python:3.11-slim AS runtime
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Runtime system deps only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libmagic1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy application code
+COPY app/ ./app/
+COPY tests/eval/ ./tests/eval/
+
+# Create data directories (ChromaDB and docs mount here)
+RUN mkdir -p /app/data/chroma_db /app/data/documents /app/eval_results
+
+# Non-root user for security
+RUN useradd -m -u 1000 raguser && chown -R raguser:raguser /app
+USER raguser
+
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
