@@ -1,0 +1,21 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "--tb=short -q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 60
